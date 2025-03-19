@@ -66,21 +66,11 @@ resource "tfe_workspace" "random_test" {
   auto_apply   = true
 }
 
-# Create workspace access with granular permissions
-resource "tfe_workspace_access" "workspace_access" {
+# Create team access to the workspace with read-only permissions
+resource "tfe_team_access" "team_access" {
   team_id      = tfe_team.team.id
   workspace_id = tfe_workspace.random_test.id
-  access       = "custom"
-
-  state_versions = "read"
-  sentinel_mocks = "none"
-  runs           = "read"
-  variables      = "read"
-  create         = false
-  locking        = false
-  move           = false
-  delete         = false
-  run_tasks      = false
+  access       = "read"  # This grants read-only access
 }
 
 # Outputs
