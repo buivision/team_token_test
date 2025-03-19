@@ -14,6 +14,32 @@ variable "tfe_hostname" {
   default     = "next-parrot.stephen-bui.sbx.hashidemos.io"
 }
 
+variable "workspace_access" {
+  description = "Workspace access permissions for the team"
+  type = object({
+    state_versions = optional(string, "none")
+    sentinel_mocks = optional(string, "none")
+    runs           = optional(string, "read")
+    variables      = optional(string, "none")
+    create         = optional(bool, false)
+    locking        = optional(bool, false)
+    move           = optional(bool, false)
+    delete         = optional(bool, false)
+    run_tasks      = optional(bool, false)
+  })
+  default = {
+    state_versions = "read"
+    sentinel_mocks = "none"
+    runs           = "read"
+    variables      = "read"
+    create         = false
+    locking        = false
+    move           = false
+    delete         = false
+    run_tasks      = false
+  }
+}
+
 # Configure the Terraform Enterprise provider
 provider "tfe" {
   # You'll need to set these environment variables:
@@ -40,11 +66,21 @@ resource "tfe_workspace" "random_test" {
   auto_apply   = true
 }
 
-# Create team access to the workspace with auto-apply permissions
-resource "tfe_team_access" "team_access" {
+# Create workspace access with granular permissions
+resource "tfe_workspace_access" "workspace_access" {
   team_id      = tfe_team.team.id
   workspace_id = tfe_workspace.random_test.id
-  access       = "write"  # This grants write access which includes auto-apply
+  access       = "custom"
+
+  state_versions = "read"
+  sentinel_mocks = "none"
+  runs           = "read"
+  variables      = "read"
+  create         = false
+  locking        = false
+  move           = false
+  delete         = false
+  run_tasks      = false
 }
 
 # Outputs
