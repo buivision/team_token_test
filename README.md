@@ -18,9 +18,9 @@ This repository contains Terraform configurations to set up a team, generate a t
 
 ## Usage
 
-1. Set your TFE API token as an environment variable:
+1. Login to your Terraform Enterprise instance:
    ```bash
-   export TF_TOKEN="your-tfe-token"
+   terraform login <TFE_HOSTNAME>
    ```
 
 2. Apply the parent configuration to create the team and workspace:
