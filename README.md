@@ -15,6 +15,9 @@ This repository contains Terraform configurations to set up a team, generate a t
 - Terraform installed locally
 - Access to a Terraform Enterprise instance
 - TFE API token with appropriate permissions
+- A Terraform Enterprise organization named "test-org" exists
+- Admin access to the "test-org" organization
+- The TFE hostname is accessible from your environment
 
 ## Configuration
 
