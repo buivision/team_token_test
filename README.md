@@ -16,6 +16,27 @@ This repository contains Terraform configurations to set up a team, generate a t
 - Access to a Terraform Enterprise instance
 - TFE API token with appropriate permissions
 
+## Configuration
+
+### Team Configuration
+- Team Name: `test-team-custom`
+- Organization: `test-org`
+- Visibility: `secret`
+
+### Workspace Configuration
+- Name: `random-test-workspace`
+- Organization: `test-org`
+- Auto-apply: Enabled
+
+### Team Permissions
+The team has the following permissions on the workspace:
+- State Versions: Read
+- Sentinel Mocks: None
+- Runs: Apply
+- Variables: Write
+- Workspace Locking: Enabled
+- Run Tasks: Enabled
+
 ## Usage
 
 1. Login to your Terraform Enterprise instance:
@@ -45,4 +66,25 @@ The parent configuration provides:
 
 - The team token is marked as sensitive and should be handled securely
 - The `.gitignore` file is configured to exclude sensitive information
-- Never commit `.tfvars` files or state files to version control 
+- Never commit `.tfvars` files or state files to version control
+- The team token should be rotated periodically for security
+- Consider using a secrets management solution for storing the team token in production
+
+## Testing
+
+The workspace configuration includes a test that:
+1. Creates random pet names
+2. Generates random strings
+3. Maps pet names to their corresponding strings
+4. Updates on every apply to verify functionality
+
+## Contributing
+
+1. Create a new branch for your changes
+2. Make your changes
+3. Test the configuration
+4. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. 

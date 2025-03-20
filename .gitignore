@@ -4,6 +4,7 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+*.tfstate.backup
 
 # Crash log files
 crash.log
@@ -24,4 +25,15 @@ override.tf.json
 terraform.rc
 
 # Ignore lock files
-.terraform.lock.hcl 
+.terraform.lock.hcl
+
+# Ignore any local backup files
+*.backup
+*.bak
+
+# Ignore any local environment files
+.env
+.env.*
+
+# Ignore any local log files
+*.log 

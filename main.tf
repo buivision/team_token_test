@@ -21,22 +21,16 @@ variable "workspace_access" {
     sentinel_mocks = optional(string, "none")
     runs           = optional(string, "read")
     variables      = optional(string, "none")
-    create         = optional(bool, false)
-    locking        = optional(bool, false)
-    move           = optional(bool, false)
-    delete         = optional(bool, false)
+    workspace_locking = optional(bool, false)
     run_tasks      = optional(bool, false)
   })
   default = {
     state_versions = "read"
     sentinel_mocks = "none"
-    runs           = "read"
-    variables      = "read"
-    create         = false
-    locking        = false
-    move           = false
-    delete         = false
-    run_tasks      = false
+    runs           = "apply"
+    variables      = "write"
+    workspace_locking = true
+    run_tasks      = true
   }
 }
 
@@ -49,7 +43,7 @@ provider "tfe" {
 
 # Create a team
 resource "tfe_team" "team" {
-  name         = "test-team"
+  name         = "test-team-custom"
   organization = "test-org"
   visibility   = "secret"
 }
@@ -70,7 +64,15 @@ resource "tfe_workspace" "random_test" {
 resource "tfe_team_access" "team_access" {
   team_id      = tfe_team.team.id
   workspace_id = tfe_workspace.random_test.id
-  access       = "read"  # This grants read-only access
+
+  permissions {
+    state_versions = var.workspace_access.state_versions
+    sentinel_mocks = var.workspace_access.sentinel_mocks
+    runs           = var.workspace_access.runs
+    variables      = var.workspace_access.variables
+    workspace_locking = var.workspace_access.workspace_locking
+    run_tasks      = var.workspace_access.run_tasks
+  }
 }
 
 # Outputs
