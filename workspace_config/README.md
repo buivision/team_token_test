@@ -45,17 +45,12 @@ The `setup.sh` script automates the following process:
 
 ## Usage
 
-1. Ensure parent configuration is ready:
-   ```bash
-   cd ..
-   terraform output
-   ```
+Simply run the setup script:
+```bash
+./setup.sh
+```
 
-2. Run the setup script:
-   ```bash
-   cd workspace_config
-   ./setup.sh
-   ```
+The script will handle all necessary steps including checking the parent configuration and setting up the workspace.
 
 ## Error Handling
 
