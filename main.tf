@@ -9,9 +9,6 @@ terraform {
 
 # Configure the Terraform Enterprise provider
 provider "tfe" {
-  # You'll need to set these environment variables:
-  # TFE_TOKEN - Your Terraform Enterprise API token
-  # TFE_HOSTNAME - Your Terraform Enterprise hostname
   hostname = var.tfe_hostname
 }
 
