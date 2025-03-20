@@ -10,6 +10,13 @@ The workspace configuration validates that:
 3. Auto-apply functionality works as expected
 4. Backend configuration is properly handled
 
+## Prerequisites
+
+Before running the setup script, ensure:
+- A Terraform Enterprise organization named "test-org" exists
+- You have admin access to the organization
+- The TFE hostname is accessible from your environment
+
 ## Files
 
 - `setup.sh` - Automated setup script that handles workspace initialization and configuration
