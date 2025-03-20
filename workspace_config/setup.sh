@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit on error
+set -e
+
 # First ensure the parent configuration is applied and has outputs
 cd .. && \
 if ! terraform output workspace_url >/dev/null 2>&1; then
@@ -19,6 +22,22 @@ cd workspace_config
 # URL format: https://<hostname>/app/<organization>/<workspace>
 ORG_NAME=$(echo "$WORKSPACE_URL" | cut -d'/' -f5)
 
+# Validate extracted values
+if [ -z "$ORG_NAME" ]; then
+    echo "Error: Could not extract organization name from workspace URL"
+    exit 1
+fi
+
+if [ -z "$TEAM_TOKEN" ]; then
+    echo "Error: Could not get team token from parent configuration"
+    exit 1
+fi
+
+if [ -z "$TFE_HOSTNAME" ]; then
+    echo "Error: Could not get TFE hostname from parent configuration"
+    exit 1
+fi
+
 # Set environment variables
 export TF_TOKEN="$TEAM_TOKEN"
 export TF_HOSTNAME="$TFE_HOSTNAME"
@@ -27,11 +46,14 @@ echo "Using organization: $ORG_NAME"
 echo "Using hostname: $TFE_HOSTNAME"
 
 # Initialize Terraform with remote backend
+echo "Initializing Terraform backend..."
 terraform init \
   -backend-config="hostname=$TFE_HOSTNAME" \
   -backend-config="organization=$ORG_NAME" \
   -backend-config="token=$TEAM_TOKEN" \
-  -reconfigure
+  -reconfigure \
+  -no-color
 
 # Apply the configuration
-terraform apply 
+echo "Applying configuration..."
+terraform apply -no-color 
